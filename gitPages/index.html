@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Guess Who</title>
+        <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+        <link rel="manifest" href="site.webmanifest">
+
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="js/jquery-3.4.1.min.js"></script>
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <script src="js/bootstrap.min.js"></script>
+    </head>
+    <body>
+        <div id='guessWhoGame'>
+            <div id='gameHead' class='gameSection text-center'>
+                <h1> Can you guess who?</h1>
+                <button type="button" id="chooseCard" class="btn btn-primary">Choose Card</button>
+                <button type="button" id="playAgain" class="btn btn-primary" style="display: none;">Play Again</button>
+            </div>
+            <div id='characters' class='gameSection container' style='display:none;'></div>
+            <div id='selectedCharacter' class='gameSection text-center' style='display:none;'>
+                <h2>Your Character</h2>
+                <img id='selectedCharacterImg'/>
+            </div>
+        </div>
+    </body>
+    <style>
+        .characterListCard {
+            margin: 10px;
+            transition: 1s;
+            transform-style: preserve-3d;
+            position: relative;
+            cursor: pointer;
+        }
+        .characterListCardBack, .characterListCard {
+            width: 70px;
+            height: 123px;
+        }
+        .characterListCardFront, .characterListCardBack {
+            width: 70px;
+            backface-visibility: hidden;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .characterListCardBack {
+            background-color: #fbcb20;
+            transform: rotateY(180deg);
+        }
+        .characterListCardFront {
+            /* for firefox 31 */
+            transform: rotateY(0deg);
+        }
+        .characterListRow {
+            width: fit-content;
+        }
+        #characters {
+            width: fit-content;
+        }
+        .flipped {
+            transform: rotateY(180deg);
+        }
+        .gameSection {
+            margin-bottom: 50px;
+        }
+        #selectedCharacterImg {
+            width: 150px;
+        }
+    </style>
+    <script>
+        var characters = ['Alex', 'Alfred', 'Anita', 'Anne', 'Bernard', 'Bill', 'Charles', 'Claire', 'David', 'Eric', 'Frans', 'George', 'Herman', 'Joe', 'Maria', 'Max', 'Paul', 'Peter', 'Phillip', 'Richard', 'Robert', 'Sam', 'Susan', 'Tom'];
+
+        function generateCharacterList(){
+            var colsPerRow = 8;
+            var width = $('#guessWhoGame').width();
+            if(width > 775){
+                colsPerRow = 8;
+            } else if(width > 550){
+                colsPerRow = 6;
+            } else {
+                colsPerRow = 4;
+            }
+            var contents = $('#characters');
+            contents.empty();
+            var row = $('<div class="row characterListRow justify-content-center"></div>');
+            var curRow = row.clone();
+            for(var i = 0; i < characters.length; i ++){
+                var col = $('<div class="characterListCard"><img class="characterListCardFront"></img><img src="img/Back.jpg" class="characterListCardBack"></img></div>');
+                col.find('.characterListCardFront').attr('src', getImgSource(characters[i]));
+                curRow.append(col);
+                if(i > 0 && (i + 1) % colsPerRow === 0){
+                    contents.append(curRow);
+                    curRow = row.clone();
+                }
+            }
+            if(characters.length % colsPerRow > 0){
+                contents.append(curRow);
+                curRow = row.clone();
+            }
+        }
+
+        function getImgSource(name){
+            return 'img/' + name + '.jpg';
+        }
+
+        $(document).ready(function() {
+            $('#chooseCard').on('click', function(){
+                var characterIndex = Math.floor(Math.random() * Math.floor(characters.length - 1));
+                var characterName = characters[characterIndex];
+                $('#selectedCharacterImg').attr('src', getImgSource(characterName));
+                $('#chooseCard').hide();
+                $('#playAgain').show();
+                $('#selectedCharacter').show();
+                generateCharacterList();
+                $('#characters').show();
+            });
+            $('#playAgain').on('click', function() {
+                $('#chooseCard').show();
+                $('#playAgain').hide();
+                $('#selectedCharacter').hide();
+                $('#characters').hide();
+            });
+            $('#characters').on('click', '.characterListCard', function(){
+                $(this).toggleClass('flipped');
+            });
+        });
+    </script>
+</html>
