@@ -29,6 +29,8 @@
     <style>
         .characterListCard {
             margin: 10px;
+            -webkit-transition: 1s;
+            -webkit-transform-style: preserve-3d;
             transition: 1s;
             transform-style: preserve-3d;
             position: relative;
@@ -47,10 +49,12 @@
         }
         .characterListCardBack {
             background-color: #fbcb20;
+            -webkit-transform: rotateY(180deg);
             transform: rotateY(180deg);
         }
         .characterListCardFront {
             /* for firefox 31 */
+            -webkit-transform: rotateY(0deg);
             transform: rotateY(0deg);
         }
         .characterListRow {
@@ -60,6 +64,7 @@
             width: fit-content;
         }
         .flipped {
+            -webkit-transform: rotateY(180deg);
             transform: rotateY(180deg);
         }
         .gameSection {
