@@ -29,7 +29,7 @@
     <style>
         .characterListCard {
             margin: 10px;
-            -webkit-transition: 1s;
+            -webkit-transition: -webkit-transform 1s;
             -webkit-transform-style: preserve-3d;
             transition: 1s;
             transform-style: preserve-3d;
@@ -42,6 +42,7 @@
         }
         .characterListCardFront, .characterListCardBack {
             width: 70px;
+            -webkit-backface-visibility: hidden;
             backface-visibility: hidden;
             position: absolute;
             top: 0;
