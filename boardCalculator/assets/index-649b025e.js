@@ -270,6 +270,10 @@ FOR DARK MODE
     ${e=>e.type==="vertical"&&Re`
             flex-direction: column;
             gap: 1.6rem;
+
+            @media (max-width: 800px) {
+                width: 100%;
+            }
         `}
 `;Kt.defaultProps={type:"vertical"};const yg=G.div`
     border: 1px solid var(--color-grey-200);
@@ -278,6 +282,10 @@ FOR DARK MODE
     background-color: var(--color-grey-0);
     border-radius: 7px;
     overflow: hidden;
+
+    @media (max-width: 800px) {
+        overflow: auto;
+    }
 `,Vd=G.div`
     display: grid;
     grid-template-columns: ${e=>e.columns};
